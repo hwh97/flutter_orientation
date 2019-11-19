@@ -29,9 +29,6 @@ public class OrientationPlugin implements MethodCallHandler {
   private int currentOrientation = SCREEN_ORIENTATION_UNSPECIFIED;
 
   public OrientationPlugin(Registrar registrar) {
-    if (registrar.activity() == null) {
-      return;
-    }
     this.activity = registrar.activity();
     this.orientationEventListener = new OrientationEventListener(activity) {
       @Override public void onOrientationChanged(int angle) {
@@ -44,6 +41,9 @@ public class OrientationPlugin implements MethodCallHandler {
 
   /** Plugin registration. */
   public static void registerWith(final Registrar registrar) {
+    if (registrar.activity() == null) {
+      return;
+    }
     final OrientationPlugin plugin = new OrientationPlugin(registrar);
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "sososdk.github.com/orientation");
     channel.setMethodCallHandler(plugin);
