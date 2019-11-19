@@ -29,6 +29,9 @@ public class OrientationPlugin implements MethodCallHandler {
   private int currentOrientation = SCREEN_ORIENTATION_UNSPECIFIED;
 
   public OrientationPlugin(Registrar registrar) {
+    if (registrar.activity() == null) {
+      return;
+    }
     this.activity = registrar.activity();
     this.orientationEventListener = new OrientationEventListener(activity) {
       @Override public void onOrientationChanged(int angle) {
